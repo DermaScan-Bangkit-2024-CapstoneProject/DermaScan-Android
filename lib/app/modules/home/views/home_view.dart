@@ -17,7 +17,7 @@ class HomeView extends GetView<HomeController> {
     PlaceholderView("Settings"), // Placeholder
   ];
 
-  const HomeView({super.key});
+  HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {

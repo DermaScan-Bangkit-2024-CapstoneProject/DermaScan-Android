@@ -7,7 +7,7 @@ import '../controllers/scan_controller.dart';
 class ScanView extends GetView<ScanController> {
   final ScanController scanController = Get.put(ScanController());
 
-  const ScanView({super.key});
+  ScanView({super.key});
 
   @override
   Widget build(BuildContext context) {
