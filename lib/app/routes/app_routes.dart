@@ -9,6 +9,10 @@ abstract class Routes {
   static const SCAN = _Paths.SCAN;
   static const PROFILE = _Paths.PROFILE;
   static const PLACEHOLDER = _Paths.PLACEHOLDER;
+  static const RESULT = _Paths.RESULT;
+  static const PREVIEW = _Paths.PREVIEW;
+  static const ARTICLES = _Paths.ARTICLES;
+  static const ARTICLE_DETAIL = _Paths.ARTICLE_DETAIL;
 }
 
 abstract class _Paths {
@@ -19,4 +23,8 @@ abstract class _Paths {
   static const SCAN = '/scan';
   static const PROFILE = '/profile';
   static const PLACEHOLDER = '/placeholder';
+  static const RESULT = '/result';
+  static const PREVIEW = '/preview';
+  static const ARTICLES = '/articles';
+  static const ARTICLE_DETAIL = '/article-detail';
 }
