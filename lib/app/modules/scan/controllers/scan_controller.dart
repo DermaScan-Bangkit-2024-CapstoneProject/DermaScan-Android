@@ -1,51 +1,94 @@
-import 'dart:io';
-
+import 'package:camera/camera.dart';
+import 'package:dermascan/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:dio/dio.dart' show Dio;
+
+import '../../../utils/logger.dart';
 
 class ScanController extends GetxController {
-  var selectedImage = Rx<File?>(null);
+  CameraController? cameraController;
+  var isInitialized = false.obs;
+  final Rx<XFile?> imageFile = Rx<XFile?>(null);
 
-  final ImagePicker picker = ImagePicker();
+  final Dio _dio = Dio();
 
-  // Pick image from the gallery
-  Future<void> pickFromGallery() async {
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    _setImage(image);
+  @override
+  void onInit() {
+    super.onInit();
+    _initializeCamera();
   }
 
-  // Take photo from the camera
-  Future<void> pickFromCamera() async {
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-    _setImage(image);
+  Future<void> _initializeCamera() async {
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+
+    cameraController = CameraController(
+      firstCamera,
+      ResolutionPreset.max,
+    );
+
+    cameraController!.initialize().then((_) {
+      logger.i("Camera initialized");
+      isInitialized.value = true;
+      update();
+    }).catchError((Object e) {
+      if (e is CameraException) {
+        switch (e.code) {
+          case 'CameraAccessDenied':
+            logger.e("CameraAccessDenied");
+            break;
+          default:
+            logger.e(e.toString());
+            break;
+        }
+      }
+    });
   }
 
-  // Common method to set the image
-  void _setImage(XFile? image) {
-    if (image != null) {
-      selectedImage(File(image.path));
-    } else {
-      Get.snackbar("Error", "No image selected.");
+  @override
+  void dispose() {
+    cameraController!.dispose();
+    super.dispose();
+  }
+
+  Future<void> takePicture() async {
+    try {
+      final image = await cameraController!.takePicture();
+      imageFile.value = image;
+      navigateToPreviewPage(imageFile.value!.path);
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to take picture: $e');
     }
   }
 
-  // Simulate image upload
-  Future<void> uploadImage() async {
-    if (selectedImage.value == null) {
-      Get.snackbar("Error", "Please select an image first.");
+  Future<void> pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      imageFile.value = pickedFile;
+      navigateToPreviewPage(imageFile.value!.path);
+    }
+  }
+
+  Future<void> toggleFlash() async {
+    if (cameraController == null) {
       return;
     }
 
+    final mode = cameraController!.value.flashMode == FlashMode.off
+        ? FlashMode.torch
+        : FlashMode.off;
+
     try {
-      Get.snackbar("Uploading", "Image upload in progress...");
-      await Future.delayed(Duration(seconds: 2)); // Simulating upload process
-      Get.snackbar("Success", "Image uploaded successfully!");
-    } catch (e) {
-      Get.snackbar("Error", e.toString());
+      await cameraController!.setFlashMode(mode);
+    } on CameraException catch (e) {
+      Get.snackbar(e.description ?? 'Error', e.toString());
+      rethrow;
     }
   }
 
-
-
-
+  void navigateToPreviewPage(String imagePath) {
+    Get.toNamed(Routes.PREVIEW, arguments: {"path": imagePath});
+  }
 }
