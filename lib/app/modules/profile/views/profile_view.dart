@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  const ProfileView({super.key});
+  final controller = Get.put(ProfileController());
+
+  ProfileView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,11 +15,12 @@ class ProfileView extends GetView<ProfileController> {
         title: const Text('ProfileView'),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Text(
-          'ProfileView is working',
-          style: TextStyle(fontSize: 20),
-        ),
+      body: Center(
+        child: ElevatedButton(
+            onPressed: () {
+              controller.logOut();
+            },
+            child: Text('Logout')),
       ),
     );
   }

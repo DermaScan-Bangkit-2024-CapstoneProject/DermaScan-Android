@@ -1,3 +1,4 @@
+import 'package:dermascan/app/modules/articles/views/articles_view.dart';
 import 'package:dermascan/app/modules/placeholder/views/placeholder_view.dart';
 import 'package:dermascan/app/modules/profile/views/profile_view.dart';
 import 'package:dermascan/app/modules/scan/views/scan_view.dart';
@@ -11,7 +12,7 @@ class HomeView extends GetView<HomeController> {
   final HomeController homeController = Get.put(HomeController());
 
   final List<Widget> pages = [
-    PlaceholderView("Dashboard"), // Placeholder
+    ArticlesView(),
     ScanView(), // Upload Photo Page
     ProfileView(), // Profile Page
     PlaceholderView("Settings"), // Placeholder
@@ -25,23 +26,27 @@ class HomeView extends GetView<HomeController> {
       body: Obx(() => pages[homeController.currentIndex.value]),
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
+          selectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+          fixedColor: Theme.of(context).primaryColor,
           currentIndex: homeController.currentIndex.value,
           onTap: homeController.updateIndex,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard),
+              icon: Icon(Icons.dashboard, color: Colors.black12),
               label: "Dashboard",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.photo_camera),
+              icon: Icon(Icons.photo_camera, color: Colors.black12),
               label: "Upload",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Icon(Icons.person, color: Colors.black12),
               label: "Profile",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
+              icon: Icon(Icons.settings, color: Colors.black12),
               label: "Settings",
             ),
           ],

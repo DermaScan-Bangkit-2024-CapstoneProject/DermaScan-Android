@@ -46,7 +46,7 @@ class SignupView extends GetView<SignupController> {
                     ),
                     TextButton(
                       onPressed: () {
-                        Get.offAll(Routes.LOGIN);
+                        Get.offAllNamed(Routes.LOGIN);
                       },
                       child: Text("Already have an account? Login"),
                     ),

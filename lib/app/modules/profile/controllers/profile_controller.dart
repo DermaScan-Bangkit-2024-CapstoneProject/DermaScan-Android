@@ -1,11 +1,12 @@
+import 'package:dermascan/app/services/auth_service.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+  final authService = Get.find<AuthService>();
 
   final count = 0.obs;
 
-
-
-  void increment() => count.value++;
+  Future<void> logOut() async {
+    await authService.logout();
+  }
 }
