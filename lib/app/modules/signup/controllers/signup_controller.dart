@@ -1,21 +1,13 @@
+import 'package:dermascan/app/services/auth_service.dart';
 import 'package:get/get.dart';
 
 class SignupController extends GetxController {
   var isLoading = false.obs;
+  final AuthService authService = Get.find<AuthService>();
 
-  // Simulate Signup
-  Future<void> signup(String email, String password) async {
-    try {
-      isLoading(true);
-      await Future.delayed(Duration(seconds: 2)); // Simulating network call
-      Get.snackbar("Success", "Account created successfully!");
-    } catch (e) {
-      Get.snackbar("Error", e.toString());
-    } finally {
-      isLoading(false);
-    }
+  Future<void> signup(String name, String email, String password) async {
+    isLoading.value = true;
+    await authService.signup(name, email, password);
+    isLoading.value = false;
   }
-
-
-
 }

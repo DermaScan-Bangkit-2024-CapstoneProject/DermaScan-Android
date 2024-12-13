@@ -39,6 +39,47 @@ class AppTheme {
           fontWeight: FontWeight.bold,
         ),
       ),
-    ), colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: accentColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        textStyle: GoogleFonts.epilogue(
+          textStyle: const TextStyle(
+            fontSize: 16,
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30.0),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30.0),
+        borderSide: BorderSide.none,
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(30.0),
+        borderSide: BorderSide(
+          color: primaryColor,
+        ),
+      ),
+      labelStyle: GoogleFonts.epilogue(
+        textStyle: const TextStyle(
+          color: Colors.black54,
+          fontSize: 14,
+        ),
+      ),
+    ),
+    colorScheme: ColorScheme.fromSwatch().copyWith(secondary: accentColor),
   );
 }

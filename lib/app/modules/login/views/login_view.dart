@@ -42,13 +42,16 @@ class LoginView extends GetView<LoginController> {
                           passwordController.text,
                         );
                       },
-                      child: Text("Login"),
+                      child: Text("Login", style: TextStyle(color: Colors.black)),
                     ),
                     TextButton(
                       onPressed: () {
                         Get.offAllNamed(Routes.SIGNUP);
                       },
-                      child: Text("Don't have an account? Sign Up"),
+                      child: Text(
+                        "Don't have an account? Sign Up",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ],
                 ),

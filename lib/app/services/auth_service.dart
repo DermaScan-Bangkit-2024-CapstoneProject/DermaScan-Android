@@ -27,8 +27,8 @@ class AuthService extends GetxService {
 
   Future<void> login(String email, String password) async {
     try {
-      var response = await apiService.post("/auth/login",
-          data: {'email': email, 'password': password});
+      var response = await apiService
+          .post("/auth/login", data: {'email': email, 'password': password});
 
       if (response.statusCode == 200) {
         var loginData = Login.fromJson(response.data);
@@ -39,6 +39,34 @@ class AuthService extends GetxService {
       }
     } on DioException catch (e) {
       logger.e(e);
+    } catch (e) {
+      logger.e(e);
+    }
+  }
+
+  Future<void> signup(String name, String email, String password,
+      {int age = 18,
+      String phone = '+123456789',
+      String city = 'Jakarta',
+      String country = 'Indonesia'}) async {
+    try {
+      var response = await apiService.post("/auth/signup", data: {
+        'name': name,
+        'age': age,
+        'email': email,
+        'password': password,
+        'phone': phone,
+        'city': city,
+        'country': country
+      });
+
+      if (response.statusCode == 201) {
+        Get.snackbar("Success", "Account created successfully! Redirecting to Login");
+        await Future.delayed(Duration(seconds: 2));
+        Get.offAllNamed(Routes.LOGIN);
+      }
+    } on DioException catch (e) {
+      Get.snackbar("Sign up failed", e.response?.data["errors"]);
     } catch (e) {
       logger.e(e);
     }
@@ -74,8 +102,7 @@ class AuthService extends GetxService {
       }
       await signOut();
       return true;
-    }
-    on DioException catch (e) {
+    } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         await signOut();
         return true;
@@ -83,8 +110,7 @@ class AuthService extends GetxService {
         logger.e(e);
         return false;
       }
-    }
-    catch (e) {
+    } catch (e) {
       logger.e(e);
       return false;
     }

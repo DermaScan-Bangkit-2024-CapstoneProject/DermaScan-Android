@@ -1,12 +1,11 @@
 import 'package:dermascan/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-
 import '../controllers/signup_controller.dart';
 
 class SignupView extends GetView<SignupController> {
   final SignupController signupController = Get.put(SignupController());
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -25,6 +24,11 @@ class SignupView extends GetView<SignupController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(labelText: "Name"),
+                    ),
+                    SizedBox(height: 10),
+                    TextField(
                       controller: emailController,
                       decoration: InputDecoration(labelText: "Email"),
                     ),
@@ -38,17 +42,20 @@ class SignupView extends GetView<SignupController> {
                     ElevatedButton(
                       onPressed: () {
                         signupController.signup(
+                          nameController.text,
                           emailController.text,
                           passwordController.text,
                         );
                       },
-                      child: Text("Sign Up"),
+                      child: Text("Sign Up",
+                          style: TextStyle(color: Colors.black)),
                     ),
                     TextButton(
                       onPressed: () {
                         Get.offAllNamed(Routes.LOGIN);
                       },
-                      child: Text("Already have an account? Login"),
+                      child: Text("Already have an account? Login",
+                          style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 ),
